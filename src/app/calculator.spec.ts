@@ -39,4 +39,9 @@ describe('Test for Calculator', () => {
     expect('123456').toMatch(/123/);
     expect(['apples', 'oranges', 'pears']).toContain('oranges');
   });
+
+  it('#divide by zero', () => {
+    const calculator = new Calculator();
+    expect(calculator.divide(6, 0)).toBeNull();
+  });
 });
