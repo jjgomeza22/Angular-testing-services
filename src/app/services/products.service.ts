@@ -1,5 +1,5 @@
 import { HttpClient,  HttpErrorResponse,  HttpParams, HttpStatusCode } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { CreateProductDTO, Product, UpdateProductDTO } from '../models/product.model';
 import { catchError, map, retry, throwError, zip } from 'rxjs';
@@ -9,10 +9,7 @@ import { catchError, map, retry, throwError, zip } from 'rxjs';
 })
 export class ProductsService {
   private apiUrl = `${environment.API_URL}/api/v1`;
-
-  constructor(
-    private http: HttpClient
-  ) { }
+  private http: HttpClient = inject(HttpClient);
 
   getByCategory(categoryId: string, limit?: number, offset?: number){
     let params = new HttpParams();
