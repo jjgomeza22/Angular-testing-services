@@ -1,18 +1,18 @@
-import faker from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 
 import { Product } from './product.model';
 
 export const generateOneProduct = (): Product => {
   return {
-    id: faker.datatype.uuid(),
+    id: faker.string.uuid(),
     title: faker.commerce.productName(),
     price: parseInt(faker.commerce.price(), 10),
     description: faker.commerce.productDescription(),
     category: {
-      id: faker.datatype.number(),
+      id: faker.number.int(),
       name: faker.commerce.department()
     },
-    images: [faker.image.imageUrl(), faker.image.imageUrl()]
+    images: [faker.image.url(), faker.image.url()]
   };
 }
 

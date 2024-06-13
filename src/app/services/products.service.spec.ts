@@ -3,6 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { ProductsService } from './products.service';
 import { Product } from '../models/product.model';
 import { environment } from '../../environments/environment';
+import { generateManyProducts } from '../models/product.mock';
 
 describe('ProductsService', () => {
   let service: ProductsService;
@@ -24,7 +25,7 @@ describe('ProductsService', () => {
   });
 
   describe('test for getAllSimple', () => {
-    it('should return a product list', (doneFn) => {
+    it('should return a product list with manual Data', (doneFn) => {
       //arrange
       const mockData: Product[] = [
         {
@@ -46,6 +47,23 @@ describe('ProductsService', () => {
       service.getAllSimple()
       .subscribe((data) => {
         expect(data[0].id).toBe('1');
+        expect(data).toEqual(mockData);
+        //assert
+        doneFn();
+      });
+
+      //http config
+      const req = httpController.expectOne(`${environment.API_URL}/api/v1/products`);
+      req.flush(mockData);
+      httpController.verify();
+    });
+
+    it('should return a product list with automatic Data', (doneFn) => {
+      //arrange
+      const mockData: Product[] = generateManyProducts();
+      //act
+      service.getAllSimple()
+      .subscribe((data) => {
         expect(data).toEqual(mockData);
         //assert
         doneFn();
